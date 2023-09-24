@@ -1,0 +1,9 @@
+# Specifies the parameters that are common to all the experiments.
+environment_parameters:
+  sigma: 0.15
+  rho: 0.95
+  tau: 0.148
+  N: 2
+  S_c: 5.0
+
+T: 1000

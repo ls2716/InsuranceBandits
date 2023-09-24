@@ -1,0 +1,75 @@
+"""This file tests the model-based ucb-bayes bandit algorithm against
+a dummy agent which always quotes the same fixed action."""
+
+# Import packages
+import utils as ut
+import numpy as np
+import matplotlib.pyplot as plt
+import logging
+import json
+
+# Import bandit algorithms
+from bandits import EpsGreedy, UCB_Bayes
+
+# Import fixed action agent
+from bandits import FixedActionAgent
+
+from models import NonStationaryLogisticModel
+
+# Initialize the environment
+from envs import InsuranceMarketCt
+
+
+logger = ut.get_logger(__name__)
+
+# Read common parameters from yaml file
+params = ut.read_parameters('common_parameters.yaml')
+logger.info(json.dumps(params, indent=4))
+
+
+# Define parameters
+no_sim = 100  # Number of simulations
+T = 1000  # Number of time steps
+no_actions = 5  # Number of actions
+action_set = np.linspace(0.1, 0.9, no_actions, endpoint=True)  # Action set
+
+dimension = 2
+quantile = 0.5
+gamma = 0.95
+
+fixed_action = 0.75  # Action for fixed-action agent
+
+# Plotting parameters
+foldername = 'images/ucb'
+filename = 'ucb_bayes_mb_nsd_vs_fixed_action'
+title = f'NS-d Model-based UCB-Bayes vs Fixed-Action Agent {fixed_action}'
+
+
+# Initialize the environment
+env = InsuranceMarketCt(**params['environment_parameters'])  # Environment
+
+# Initialize the model
+model = NonStationaryLogisticModel(candidate_margins=action_set,
+                                   method='discounting', gamma=gamma)
+# Initialize epsilon-greedy bandit
+bandit = UCB_Bayes(model=model, T=None, c=0, quantile=quantile)
+# Initialize dummy agent
+fixed_agent = FixedActionAgent(action=fixed_action)
+
+
+logger.info(f'Action set {action_set}')
+
+# Run simulations
+reward_history, bandit_action_frequencies, fixed_action_frequencies = ut.run_simulations(
+    bandit, fixed_agent, env, T, no_sim)
+
+logger.info(f'Average reward {np.mean(reward_history)}')
+
+# Plot results using the plot functions from utils.py
+ut.create_folder(foldername)
+ut.plot_action_history(action_set, bandit_action_frequencies, foldername=foldername, filename=filename,
+                       title=title)
+ut.plot_reward_history(
+    reward_history, bandit1_name='NS-d Model-based UCB-Bayes',
+    bandit2_name='Fixed-Action Agent', foldername=foldername, filename=filename,
+    title=title)

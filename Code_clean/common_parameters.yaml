@@ -1,0 +1,32 @@
+# Specifies the parameters that are common to all the experiments.
+environment_parameters:
+  sigma: 0.15
+  rho: 0.5
+  tau: 0.13
+  N: 2
+  S_c: 1.0
+
+environment_parameters_2:
+  sigma: 0.15
+  rho: 0.5
+  tau: 0.13
+  N: 2
+  S_c: 0.6
+
+ns_environment_parameters:
+  sigma: 0.15
+  rho: 0.5
+  tau: 0.13
+  N: 2
+  S_c_mean: 0.9
+  S_c_half_amplitude: 0.4
+  S_c_period: 500
+
+ns_environment_parameters_2:
+  sigma: 0.15
+  rho: 0.5
+  tau: 0.13
+  N: 2
+  S_c_mean: 0.6
+  S_c_half_amplitude: 0.3
+  S_c_period: 500

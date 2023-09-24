@@ -1,0 +1,10 @@
+*.pdf
+*.png
+venv/
+.vscode/
+__pycache__/
+*.pyc
+*.txt
+*.pkl
+archive/
+*.pptx
