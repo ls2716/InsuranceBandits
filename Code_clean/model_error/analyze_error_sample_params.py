@@ -10,6 +10,9 @@ import utils as ut
 logger = ut.get_logger(__name__)
 logger.setLevel(ut.logging.INFO)
 
+# Set seed for numpy
+np.random.seed(1234)
+
 
 no_actions = 5  # Number of actions
 action_set = np.linspace(0.1, 0.9, no_actions, endpoint=True)  # Action set
@@ -34,8 +37,8 @@ plot_range = np.linspace(0, 1, 100)
 plotting_model = optimize_model.LogisticModel(
     action_set=plot_range, dimension=dimension)
 
-no_samples = 1000
-no_opponents = 1
+no_samples = 2000
+no_opponents = 3
 
 env_params['N'] = no_opponents+1
 # env_params['tau'] = 0.01
@@ -44,7 +47,7 @@ opponent_margins = np.random.choice(
     opponent_action_set, size=(no_samples, no_opponents))
 
 sigmas = np.random.uniform(0.05, 0.55, size=(no_samples))
-rhos = np.random.uniform(0.85, 1., size=(no_samples))
+rhos = np.random.uniform(0.0, 1., size=(no_samples))
 
 errors = np.zeros(shape=(no_actions, no_samples))
 sup_errors = np.zeros(shape=(no_samples))
@@ -87,19 +90,36 @@ print(f'Mean error: {np.mean(errors, axis=1)}')
 # plt.show()
 
 max_errors = np.max(errors, axis=0)
-plt.hist(max_errors, bins=100)
-plt.xlabel('max_errors')
+# plt.hist(max_errors, bins=50)
+# plt.xlabel('max errors')
+# plt.ylabel('frequency')
+# plt.grid()
+# plt.savefig('images/model_error/sample_params_max_errors.png')
+# plt.show()
+
+mean_errors = np.mean(errors, axis=0)
+plt.hist(errors.flatten(), bins=50)
+plt.xlabel('error level')
 plt.ylabel('frequency')
+plt.grid()
+plt.savefig('images/model_error/sample_params_errors.png')
 plt.show()
 
 print(f'Max error {np.max(errors, axis=1)}')
 worst_index = np.argmax(max_errors)
+print(f'Errors at worst index {errors[:, worst_index]}')
 
 opponent_margins_sample = opponent_margins[worst_index, :].tolist()
 env_params_sample['sigma'] = sigmas[worst_index]
 env_params_sample['rho'] = rhos[worst_index]
 print('Worst opponent margins', opponent_margins_sample)
 print('Environment parametes', env_params_sample)
+
+with open('images/model_error/worst_case.txt', 'w+') as f:
+    f.write(f'Errors at worst index {errors[:, worst_index]}')
+    f.write(f'Worst opponent margins {opponent_margins_sample}')
+    f.write(f'Environment parametes {env_params_sample}')
+
 true_probs, true_rewards = \
     environment_functions.expected_reward_probability(
         env_params=env_params_sample,
@@ -121,4 +141,5 @@ plt.xlabel('S_i')
 plt.ylabel('Probability')
 plt.legend()
 plt.grid()
+plt.savefig('images/model_error/sample_params_worst_case.png')
 plt.show()

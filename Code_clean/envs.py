@@ -172,7 +172,7 @@ class InsuranceMarketCt(object):
 
     """
 
-    def __init__(self, N, sigma, rho, S_c, tau) -> None:
+    def __init__(self, N, sigma, rho, S_c, tau, **kwargs) -> None:
         """Initialize object.
 
         Arguments:

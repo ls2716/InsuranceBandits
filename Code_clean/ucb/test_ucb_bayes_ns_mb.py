@@ -27,11 +27,18 @@ logger = ut.get_logger(__name__)
 params = ut.read_parameters('common_parameters.yaml')
 logger.info(json.dumps(params, indent=4))
 
+nash_payoff = params['environment_parameters']['nash_payoff']
+pareto_payoff = params['environment_parameters']['pareto_payoff']
+
+
+def dimless_payoff(x):
+    return (x - nash_payoff) / (pareto_payoff - nash_payoff)
+
 
 # Define parameters
 no_sim = 100  # Number of simulations
 T = 1000  # Number of time steps
-no_actions = 129  # Number of actions
+no_actions = 5  # Number of actions
 action_set = np.linspace(0.1, 0.9, no_actions, endpoint=True)  # Action set
 
 quantile = 0.7
@@ -83,6 +90,6 @@ ut.create_folder(foldername)
 ut.plot_action_history(action_set, bandit_action_frequencies, foldername=foldername, filename=filename,
                        title=title)
 ut.plot_smooth_reward_history(
-    reward_history, bandit1_name=f'Ns-d {gamma} Model-based UCB-Bayes',
+    dimless_payoff(reward_history), bandit1_name=f'Ns-d {gamma} Model-based UCB-Bayes',
     bandit2_name='Fluctuating-Action Agent', foldername=foldername, filename=filename,
     title=title)

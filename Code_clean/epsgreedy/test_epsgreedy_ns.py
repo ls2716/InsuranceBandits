@@ -28,10 +28,48 @@ params = ut.read_parameters('common_parameters.yaml')
 logger.info(json.dumps(params, indent=4))
 
 
+nash_payoff = params['environment_parameters']['nash_payoff']
+pareto_payoff = params['environment_parameters']['pareto_payoff']
+
+
+def dimless_payoff(x):
+    return (x - nash_payoff) / (pareto_payoff - nash_payoff)
+
+
+s = r"""
+classic enters classic & 130/103/+27 & 145/106/+39 & 172/109/+63\\
+        classic enters logistic & 146/126/+20 & 149/126/+23 & 151/135/+16\\
+        logistic enters classic & 170/152/+18 & 188/153/+35 & 217/156/+61\\
+        logistic enters logistic & 164/159/+5 & 165/159/+6 & 169/158/+11
+"""
+
+# For every number in the string s, replace that number with result of the
+# dimless_payoff function applied  to that number
+num = 0
+sout = ""
+nums = []
+for c in s:
+    if c == '+':
+        plus = True
+    if not c.isdigit():
+        if num > 0:
+            nums.append(dimless_payoff(num))
+            if len(nums) % 3 != 0:
+                sout += str(int(dimless_payoff(num)))
+            else:
+                sout += str(int(nums[-3])-int(nums[-2]))
+            num = 0
+        sout += c
+    else:
+        num = num*10+int(c)
+print(sout)
+
+
+exit(0)
 # Define parameters
 no_sim = 100  # Number of simulations
 T = 1000  # Number of time steps
-no_actions = 129  # Number of actions
+no_actions = 5  # Number of actions
 action_set = np.linspace(0.1, 0.9, no_actions, endpoint=True)  # Action set
 
 epsilon = 0.05  # Epsilon for epsilon-greedy bandit
@@ -83,6 +121,6 @@ ut.create_folder(foldername)
 ut.plot_action_history(action_set, bandit_action_frequencies, foldername=foldername, filename=filename,
                        title=title)
 ut.plot_smooth_reward_history(
-    reward_history, bandit1_name=f'Ns-d {gamma} Classic Eps-Greedy',
+    dimless_payoff(reward_history), bandit1_name=f'Ns-d {gamma} Classic Eps-Greedy',
     bandit2_name='Fluctuating-Action Agent', foldername=foldername, filename=filename,
     title=title)

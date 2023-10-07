@@ -42,7 +42,7 @@ def compute_nash(no_actions):
         new_S_0 = action_set[s_0_index]
         # print(f'Best against {S_0} is {new_S_0}')
         if S_0 == new_S_0:
-            nash_points.append((s_0_index, new_S_0))
+            nash_points.append((s_0_index, new_S_0, true_rewards[s_0_index]))
             break
         S_0 = new_S_0
 
@@ -51,13 +51,13 @@ def compute_nash(no_actions):
         true_probs, true_rewards = \
             ef.expected_reward_probability(
                 env_params=env_params,
-                S_i=action_set, S=[action], no_samples=500000
+                S_i=action_set, S=[action], no_samples=100000
             )
         index = np.argmax(true_rewards)
         new_S_0 = action_set[index]
         # print(f'Best against {S_0} is {new_S_0}')
         if action == new_S_0:
-            nash_points.append((index, action))
+            nash_points.append((index, action, true_rewards[index]))
         elif len(nash_points) > 0:
             break
 
@@ -65,6 +65,7 @@ def compute_nash(no_actions):
 
 
 nums_of_actions = [5, 9, 17, 33, 65, 129, 801]
+# nums_of_actions = [801]
 
 for no_actions in nums_of_actions:
     nash_points = compute_nash(no_actions)

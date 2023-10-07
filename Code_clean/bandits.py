@@ -119,6 +119,22 @@ class TwoActionAgent(BaseBandit):
         self.t = 0
 
 
+class SequenceAgent(BaseBandit):
+
+    def __init__(self, action_sequence) -> None:
+        self.action_sequence = action_sequence
+
+    def get_action(self):
+        # Sample random action
+        return self.action_sequence[self.t], 0
+
+    def update(self, *args):
+        self.t = (self.t + 1) % len(self.action_sequence)
+
+    def reset(self, **kwargs):
+        self.t = 0
+
+
 class EpsGreedy(BaseBandit):
     """eps-greed bandit algorithm as in OTC paper
     """

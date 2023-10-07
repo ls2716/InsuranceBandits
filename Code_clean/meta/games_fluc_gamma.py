@@ -36,8 +36,8 @@ T = 1000  # Number of time steps
 
 
 # Plotting parameters
-base_foldername = f'images/meta_fluc_{no_actions}'
-base_result_folder = f'results/meta_fluc_{no_actions}'
+base_foldername = f'images/meta_fluc_gamma_{no_actions}'
+base_result_folder = f'results/meta_fluc_gamma_{no_actions}'
 
 
 # Initialize the environment
@@ -135,17 +135,23 @@ agent_dict['sequence_agent'] = SequenceAgent(
 
 
 agent_pairs = [
-    # ('epsgreedy_classic_ns_0.95', 'fluctuating_agent_1000'),
-    ('epsgreedy_classic_ns_0.95', 'fluctuating_agent_500'),
-    # ('epsgreedy_classic_ns_0.95', 'fluctuating_agent_200'),
-    # ('epsgreedy_classic_ns_0.95', 'fluctuating_agent_100'),
-    # ('epsgreedy_classic_ns_0.95', 'fluctuating_agent_50'),
-    # ('epsgreedy_classic_ns_0.95', 'fluctuating_agent_25'),
-    # ('epsgreedy_classic_ns_0.95', 'two_action_agent'),
-    # ('epsgreedy_classic_ns_0.95', 'three_action_agent'),
+    # ('epsgreedy_classic_ns_0.90', 'fluctuating_agent_500'),
+    # ('epsgreedy_classic_ns_0.93', 'fluctuating_agent_500'),
+    # ('epsgreedy_classic_ns_0.95', 'fluctuating_agent_500'),
+    # ('epsgreedy_classic_ns_0.97', 'fluctuating_agent_500'),
+    # ('epsgreedy_classic_ns_0.99', 'fluctuating_agent_500'),
+    # ('epsgreedy_classic_ns_0.995', 'fluctuating_agent_500'),
+    # ('epsgreedy_classic_ns_1.0', 'fluctuating_agent_500'),
+    ('ucb_classic_ns_0.90', 'fluctuating_agent_500'),
+    ('ucb_classic_ns_0.93', 'fluctuating_agent_500'),
+    ('ucb_classic_ns_0.95', 'fluctuating_agent_500'),
+    ('ucb_classic_ns_0.97', 'fluctuating_agent_500'),
+    ('ucb_classic_ns_0.99', 'fluctuating_agent_500'),
+    ('ucb_classic_ns_0.995', 'fluctuating_agent_500'),
+    ('ucb_classic_ns_1.0', 'fluctuating_agent_500'),
 
     # ('epsgreedy_logistic_ns_0.95', 'fluctuating_agent_1000'),
-    ('epsgreedy_logistic_ns_0.95', 'fluctuating_agent_500'),
+    # ('epsgreedy_logistic_ns_0.95', 'fluctuating_agent_500'),
     # ('epsgreedy_logistic_ns_0.95', 'fluctuating_agent_200'),
     # ('epsgreedy_logistic_ns_0.95', 'fluctuating_agent_100'),
     # ('epsgreedy_logistic_ns_0.95', 'fluctuating_agent_50'),
@@ -154,14 +160,14 @@ agent_pairs = [
     # ('epsgreedy_logistic_ns_0.95', 'three_action_agent'),
     # ('ucb_classic_ns_0.95', 'two_action_agent'),
     # ('ucb_logistic_ns_0.95', 'two_action_agent'),
-    ('ucb_classic_ns_0.95', 'fluctuating_agent_500'),
-    ('ucb_logistic_ns_0.95', 'fluctuating_agent_500'),
+    # ('ucb_classic_ns_0.95', 'fluctuating_agent_500'),
+    # ('ucb_logistic_ns_0.95', 'fluctuating_agent_500'),
     # ('ts_classic_ns_0.95', 'two_action_agent'),
     # ('ts_logistic_ns_0.95', 'two_action_agent'),
-    ('epsgreedy_classic_ns_0.95', 'sequence_agent'),
-    ('epsgreedy_logistic_ns_0.95', 'sequence_agent'),
-    ('ucb_classic_ns_0.95', 'sequence_agent'),
-    ('ucb_logistic_ns_0.95', 'sequence_agent'),
+    # ('epsgreedy_classic_ns_0.95', 'sequence_agent'),
+    # ('epsgreedy_logistic_ns_0.95', 'sequence_agent'),
+    # ('ucb_classic_ns_0.95', 'sequence_agent'),
+    # ('ucb_logistic_ns_0.95', 'sequence_agent'),
 ]
 
 

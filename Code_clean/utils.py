@@ -144,7 +144,8 @@ def plot_smooth_reward_history(reward_history, bandit1_name, bandit2_name,
     for i in range(reward_history.shape[1]):
         smooth_reward_history[:, i] = np.convolve(
             reward_history[:, i], np.ones(window)/window, mode='valid')
-    timesteps = np.arange(half_window, reward_history.shape[0]-half_window)
+    timesteps = np.arange(
+        half_window, reward_history.shape[0]-half_window + (window+1) % 2)
     plt.plot(
         timesteps, smooth_reward_history[:, 0], label=bandit1_name, color='C0')
     plt.plot(reward_history[:, 0], color='C0', alpha=0.25)

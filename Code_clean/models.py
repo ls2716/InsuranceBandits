@@ -274,6 +274,7 @@ class StationaryLogisticModel(BaseModel):
         logger.info(f'Covariance: \n {self.cov}')
 
     def get_expected_rewards(self):
+        # return self.get_quantiles(0.5)
         probabilities = sigmoid(self.mean.T @ self.action_vectors)
         rewards = self.action_vectors[1, :] * probabilities
         return rewards.reshape(-1)

@@ -29,15 +29,15 @@ def dimless_payoff(x):
 
 
 # Define parameters
-no_sim = 100  # Number of simulations
+no_sim = 500  # Number of simulations
 T = 1000  # Number of time steps
 # no_actions = 5  # Number of actions
 # action_set = np.linspace(0.1, 0.9, no_actions, endpoint=True)  # Action set
 
 
 # Plotting parameters
-base_foldername = f'images/meta_fluc_{no_actions}'
-base_result_folder = f'results/meta_fluc_{no_actions}'
+base_foldername = f'images/meta_fluc_square_{no_actions}'
+base_result_folder = f'results/meta_fluc_square_{no_actions}'
 
 
 # Initialize the environment
@@ -104,64 +104,56 @@ def get_fluc_agent(mean_action, half_amplitude, period):
     return agent
 
 
-mean_action = 0.6
-half_amplitude = 0.3
-# Add agents to the dictionary
-agent_dict['fluctuating_agent_1000'] = get_fluc_agent(mean_action=mean_action,
-                                                      half_amplitude=half_amplitude,
-                                                      period=1000)
-agent_dict['fluctuating_agent_500'] = get_fluc_agent(mean_action=mean_action,
-                                                     half_amplitude=half_amplitude,
-                                                     period=500)
-agent_dict['fluctuating_agent_200'] = get_fluc_agent(mean_action=mean_action,
-                                                     half_amplitude=half_amplitude,
-                                                     period=200)
-agent_dict['fluctuating_agent_100'] = get_fluc_agent(mean_action=mean_action,
-                                                     half_amplitude=half_amplitude,
-                                                     period=100)
-agent_dict['fluctuating_agent_50'] = get_fluc_agent(mean_action=mean_action,
-                                                    half_amplitude=half_amplitude,
-                                                    period=50)
-agent_dict['fluctuating_agent_25'] = get_fluc_agent(mean_action=mean_action,
-                                                    half_amplitude=half_amplitude,
-                                                    period=25)
+low_action = 0.1
+high_action = 0.7
+period = 500
 
-agent_dict['two_action_agent'] = TwoActionAgent([0.1, 0.3])
-agent_dict['three_action_agent'] = TwoActionAgent([0.1, 0.2, 0.3])
-
-agent_dict['sequence_agent'] = SequenceAgent(
-    [0.9]*4 + [0.1]*16
+agent_dict['sequence_500_agent'] = SequenceAgent(
+    [low_action]*(period//2) + [high_action]*(period//2)
 )
 
 
 agent_pairs = [
-    # ('epsgreedy_classic_ns_0.95', 'fluctuating_agent_1000'),
-    ('epsgreedy_classic_ns_0.95', 'fluctuating_agent_500'),
-    # ('epsgreedy_classic_ns_0.95', 'fluctuating_agent_200'),
-    # ('epsgreedy_classic_ns_0.95', 'fluctuating_agent_100'),
-    # ('epsgreedy_classic_ns_0.95', 'fluctuating_agent_50'),
-    # ('epsgreedy_classic_ns_0.95', 'fluctuating_agent_25'),
-    # ('epsgreedy_classic_ns_0.95', 'two_action_agent'),
-    # ('epsgreedy_classic_ns_0.95', 'three_action_agent'),
+    # ('epsgreedy_classic_ns_0.70', 'sequence_500_agent'),
+    # ('epsgreedy_classic_ns_0.80', 'sequence_500_agent'),
+    # ('epsgreedy_classic_ns_0.85', 'sequence_500_agent'),
+    # ('epsgreedy_classic_ns_0.90', 'sequence_500_agent'),
+    # ('epsgreedy_classic_ns_0.93', 'sequence_500_agent'),
+    # ('epsgreedy_classic_ns_0.95', 'sequence_500_agent'),
+    # ('epsgreedy_logistic_ns_0.90', 'sequence_500_agent'),
+    # ('epsgreedy_logistic_ns_0.93', 'sequence_500_agent'),
+    # ('epsgreedy_logistic_ns_0.95', 'sequence_500_agent'),
 
-    # ('epsgreedy_logistic_ns_0.95', 'fluctuating_agent_1000'),
-    ('epsgreedy_logistic_ns_0.95', 'fluctuating_agent_500'),
-    # ('epsgreedy_logistic_ns_0.95', 'fluctuating_agent_200'),
-    # ('epsgreedy_logistic_ns_0.95', 'fluctuating_agent_100'),
-    # ('epsgreedy_logistic_ns_0.95', 'fluctuating_agent_50'),
-    # ('epsgreedy_logistic_ns_0.95', 'fluctuating_agent_25'),
-    # ('epsgreedy_logistic_ns_0.95', 'two_action_agent'),
-    # ('epsgreedy_logistic_ns_0.95', 'three_action_agent'),
-    # ('ucb_classic_ns_0.95', 'two_action_agent'),
-    # ('ucb_logistic_ns_0.95', 'two_action_agent'),
-    ('ucb_classic_ns_0.95', 'fluctuating_agent_500'),
-    ('ucb_logistic_ns_0.95', 'fluctuating_agent_500'),
-    # ('ts_classic_ns_0.95', 'two_action_agent'),
-    # ('ts_logistic_ns_0.95', 'two_action_agent'),
-    ('epsgreedy_classic_ns_0.95', 'sequence_agent'),
-    ('epsgreedy_logistic_ns_0.95', 'sequence_agent'),
-    ('ucb_classic_ns_0.95', 'sequence_agent'),
-    ('ucb_logistic_ns_0.95', 'sequence_agent'),
+    # ('ucb_classic_ns_0.95', 'sequence_500_agent'),
+    # ('ucb_logistic_ns_0.95', 'sequence_500_agent'),
+    # ('epsgreedy_classic_nssw_75', 'sequence_500_agent'),
+    # ('epsgreedy_logistic_nssw_75', 'sequence_500_agent'),
+    # ('epsgreedy_classic_nssw_50', 'sequence_500_agent'),
+    # ('epsgreedy_classic_nssw_40', 'sequence_500_agent'),
+    # ('epsgreedy_classic_nssw_30', 'sequence_500_agent'),
+    # ('epsgreedy_classic_nssw_20', 'sequence_500_agent'),
+    # ('epsgreedy_classic_nssw_10', 'sequence_500_agent'),
+    ('epsgreedy_logistic_nssw_75', 'sequence_500_agent'),
+    ('epsgreedy_logistic_nssw_50', 'sequence_500_agent'),
+    ('epsgreedy_logistic_nssw_40', 'sequence_500_agent'),
+    ('epsgreedy_logistic_nssw_30', 'sequence_500_agent'),
+    ('epsgreedy_logistic_nssw_20', 'sequence_500_agent'),
+    ('epsgreedy_logistic_nssw_10', 'sequence_500_agent'),
+
+
+    # ('ucb_classic_nssw_200', 'sequence_500_agent'),
+    # ('ucb_logistic_nssw_200', 'sequence_500_agent'),
+    # ('ucb_classic_nssw_100', 'sequence_500_agent'),
+    # ('ucb_logistic_nssw_100', 'sequence_500_agent'),
+    # ('ucb_classic_nssw_50', 'sequence_500_agent'),
+    # ('ucb_logistic_nssw_50', 'sequence_500_agent'),
+    # ('ucb_classic_nssw_30', 'sequence_500_agent'),
+    # ('ucb_logistic_nssw_30', 'sequence_500_agent'),
+    # ('ucb_classic_nssw_20', 'sequence_500_agent'),
+    # ('ucb_logistic_nssw_20', 'sequence_500_agent'),
+    # ('ucb_classic_nssw_10', 'sequence_500_agent'),
+    # ('ucb_logistic_nssw_10', 'sequence_500_agent'),
+
 ]
 
 

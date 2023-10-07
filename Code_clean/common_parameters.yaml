@@ -5,6 +5,8 @@ environment_parameters:
   tau: 0.13
   N: 2
   S_c: 1.0
+  nash_payoff: 0.081
+  pareto_payoff: 0.364
 
 environment_parameters_2:
   sigma: 0.15
